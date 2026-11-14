@@ -5,9 +5,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+    body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    #rock,
+    #paper,
+    #scissors {
+        padding: 15px 30px;
+        margin: 10px;
+        font-size: 20px;
+        cursor: pointer;
+        border-radius: 8px;
+        border: none;
+    }
+
+    #results {
+        margin-top: 25px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+</style>
 </head>
 <body>
+    <button id="rock"> ✊ Rock</button>
+    <button id="paper">✋Paper</button>
+    <button id="scissors">✌️Scissors</button>
+    <div id="playerChoice"></div>
+<div id="computerChoice"></div>
+    <div id="results"></div>
     <script>
+
+        const rockButton=document.querySelector("#rock");
+        const paperButton=document.querySelector("#paper");
+        const scissorsButton=document.querySelector("#scissors");
+        const results = document.querySelector("#results");
+        const playerChoiceDisplay = document.querySelector("#playerChoice");
+const computerChoiceDisplay = document.querySelector("#computerChoice");
+        rockButton.addEventListener("click", function() {
+    playRound("rock", getComputerChoice());
+});
+
+paperButton.addEventListener("click", function() {
+    playRound("paper", getComputerChoice());
+});
+
+scissorsButton.addEventListener("click", function() {
+    playRound("scissors", getComputerChoice());
+});
+
+
+// Player score variables
+            let humanScore = 0;
+            let computerScore = 0;
+
 
         // Computer choice
         function getComputerChoice() {
@@ -22,25 +76,21 @@
             }
         }
 
-        // Human choice
-        function getHumanChoice() {
-            let humanChoice = prompt("Choose rock, paper or scissors:");
-            return humanChoice.toLowerCase();
-        }
 
-        // Logic to play entire game
-        function playGame() {
 
-            // Player score variables
-            let humanScore = 0;
-            let computerScore = 0;
 
+            
             // Logic to play a round
             function playRound(humanChoice, computerChoice) {
 
+
+                playerChoiceDisplay.textContent = "You selected: " + humanChoice;
+
+computerChoiceDisplay.textContent = "Computer selected: " + computerChoice;
+
                 // Draw
                 if (computerChoice === humanChoice) {
-                    console.log("It's a draw!");
+                    results.textContent = "It's a draw!";
                 }
 
                 // Human wins
@@ -49,39 +99,41 @@
                     (humanChoice === "paper" && computerChoice === "rock") ||
                     (humanChoice === "scissors" && computerChoice === "paper")
                 ) {
-                    console.log("You win!");
+                    results.textContent = "You Win!";
                     humanScore++;
                 }
 
                 // Computer wins
                 else {
-                    console.log("You lose! Computer wins!");
+                    results.textContent = "You lose! Computer wins!";
                     computerScore++;
                 }
+
+                results.textContent += " Your score: " + humanScore;
+                results.textContent += " Computer score: " + computerScore;
+
+                if (humanScore === 5) {
+    // Player wins the game
+    results.textContent += " You are the overall winner!";
+    rockButton.disabled = true;
+paperButton.disabled = true;
+scissorsButton.disabled = true;
+}
+else if (computerScore === 5) {
+    // Computer wins the game
+    results.textContent += " Computer is the overall winner!";
+    rockButton.disabled = true;
+paperButton.disabled = true;
+scissorsButton.disabled = true;
+}
             }
 
-            // Play five rounds
-            for (let i = 1; i <= 5; i++) {
-                console.log("Round " + i);
-                playRound(getHumanChoice(), getComputerChoice());
-            }
+            
 
-            // Display final scores
-            console.log("Your score: " + humanScore);
-            console.log("Computer score: " + computerScore);
+           
+        
 
-            // Declare final winner
-            if (humanScore > computerScore) {
-                console.log("You are the overall winner!");
-            } else if (computerScore > humanScore) {
-                console.log("Computer is the overall winner!");
-            } else {
-                console.log("It's an overall draw!");
-            }
-        }
-
-        // Start the game
-        playGame();
+       
 
     </script>
 </body>
